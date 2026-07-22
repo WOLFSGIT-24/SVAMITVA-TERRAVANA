@@ -1,0 +1,12 @@
+@import './fonts.css';
+@import './terravana.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Pulse animation for floating CTA dot */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
