@@ -41,11 +41,11 @@ export default function EnquirySection() {
     try {
       await fetch(WEBHOOK_URL, {
         method: 'POST',
-        // Send as text/plain to avoid CORS preflight — Make.com parses JSON body regardless
+        mode: 'no-cors', // bypass CORS — Make.com receives data, we can't read response
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload),
       });
-      // Make.com returns "Accepted" as plain text — any response means success
+      // With no-cors we always get an opaque response — treat as success
       setSubmitted(true);
     } catch (err) {
       setError('Something went wrong. Please try again or call us directly.');
