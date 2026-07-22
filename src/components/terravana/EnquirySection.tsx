@@ -2,6 +2,8 @@ import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useWindowSize } from '@/hooks/use-window-size';
 
+const WEBHOOK_URL = 'https://hook.us1.make.com/hkc9abx8432bfl2p01al8k4jiinh6rl';
+
 const trust = [
   { value: '40+', label: 'Years of\nExpertise'     },
   { value: '4',   label: 'Landmark\nProjects'      },
@@ -14,17 +16,43 @@ export default function EnquirySection() {
   const inView = useInView(ref, { once: true, margin: '-10%' });
   const { isMobile, isTablet } = useWindowSize();
 
-  const [form, setForm]         = useState({ name: '', phone: '', email: '', message: '' });
+  const [form, setForm]           = useState({ name: '', phone: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading]   = useState(false);
+  const [loading, setLoading]     = useState(false);
+  const [error, setError]         = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => { setLoading(false); setSubmitted(true); }, 1400);
+    setError(null);
+
+    const payload = {
+      name:        form.name.trim(),
+      phone:       form.phone.trim(),
+      email:       form.email.trim(),
+      message:     form.message.trim(),
+      submitted_at: new Date().toISOString(),
+      source:      'Svamitva Terravana Website',
+    };
+
+    try {
+      const res = await fetch(WEBHOOK_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error(`Webhook error: ${res.status}`);
+
+      setSubmitted(true);
+    } catch (err) {
+      setError('Something went wrong. Please try again or call us directly.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const isStack = isTablet;
@@ -142,6 +170,12 @@ export default function EnquirySection() {
                     </>
                   ) : 'Schedule My Tour'}
                 </motion.button>
+
+                {error && (
+                  <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.72rem', color: '#ff7c5c', textAlign: 'center', marginTop: '0.5rem', lineHeight: 1.5 }}>
+                    {error}
+                  </p>
+                )}
 
                 <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.65rem', color: 'rgba(255,255,255,0.28)', textAlign: 'center', letterSpacing: '0.06em', marginTop: '0.25rem' }}>
                   No spam. Your privacy is respected.
