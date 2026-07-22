@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useWindowSize } from '@/hooks/use-window-size';
 
-const WEBHOOK_URL = 'https://hook.us1.make.com/hkc9abx8432bfl2p01al8k4jiinh6rl';
+const WEBHOOK_URL = 'https://hook.us1.make.com/hkc9abx8432bfl2p01al8k4jiinh6rluits';
 
 const trust = [
   { value: '40+', label: 'Years of\nExpertise'     },
@@ -39,14 +39,13 @@ export default function EnquirySection() {
     };
 
     try {
-      const res = await fetch(WEBHOOK_URL, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload),
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        // Send as text/plain to avoid CORS preflight — Make.com parses JSON body regardless
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload),
       });
-
-      if (!res.ok) throw new Error(`Webhook error: ${res.status}`);
-
+      // Make.com returns "Accepted" as plain text — any response means success
       setSubmitted(true);
     } catch (err) {
       setError('Something went wrong. Please try again or call us directly.');
