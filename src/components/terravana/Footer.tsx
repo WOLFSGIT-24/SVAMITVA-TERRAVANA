@@ -157,28 +157,30 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Channel Partner */}
+        {/* Authorised Sales Partner */}
         <div>
-          <div style={colHeadStyle}>Channel Partner</div>
+          <div style={colHeadStyle}>Authorised Sales Partner</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
-              <div style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.6rem', color: '#C76B33', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.28rem' }}>
-                Partner With Us
+              <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.15rem', fontWeight: 500, color: '#fff', letterSpacing: '-0.01em', marginBottom: '0.4rem' }}>
+                Wolf Media
               </div>
-              <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, margin: '0 0 0.75rem' }}>
-                Join our trusted network of channel partners and help connect clients to conscious living at Terravana.
+              <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, margin: '0 0 0.5rem' }}>
+                RERA Registered Channel Partner<br />
+                Exclusive marketing & sales partner for Svamitva Terravana.
               </p>
             </div>
             <div>
               <div style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.6rem', color: '#C76B33', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.28rem' }}>
-                Partner Enquiries
+                Contact
               </div>
               <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, margin: 0 }}>
-                partners@svamitvagroup.com<br />+91 89715 04584
+                +91 89715 04584<br />
+                wolfmedia.website@gmail.com
               </p>
             </div>
             <a
-              href="mailto:partners@svamitvagroup.com"
+              href="tel:+918971504584"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -207,7 +209,7 @@ export default function Footer() {
                 (e.currentTarget as HTMLElement).style.borderColor = 'rgba(199,107,51,0.4)';
               }}
             >
-              Become a Partner
+              Call Now
             </a>
           </div>
         </div>
