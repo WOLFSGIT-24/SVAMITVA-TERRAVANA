@@ -1,232 +1,180 @@
 import { useWindowSize } from '@/hooks/use-window-size';
-
-const quickLinks = [
-  { label: 'Our Story',       id: 'story'          },
-  { label: 'Why Terravana',   id: 'why-terravana'  },
-  { label: 'Masterplan',      id: 'masterplan'     },
-  { label: 'Villas',          id: 'villas'         },
-  { label: 'Contact',         id: 'contact'        },
-];
-
-const otherProjects = [
-  'Svamitva Emerald Square',
-  'Svamitva Floresta',
-  'Manikchand Soul Spring',
-  'Svamitva Rootopia',
-];
-
-const social = [
-  {
-    name: 'Instagram',
-    href: 'https://instagram.com',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Facebook',
-    href: 'https://facebook.com',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-      </svg>
-    ),
-  },
-  {
-    name: 'YouTube',
-    href: 'https://youtube.com',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
-        <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" />
-      </svg>
-    ),
-  },
-];
+import { usePopupStore } from '@/hooks/use-popup-store';
 
 export default function Footer() {
   const { isMobile, isTablet, width } = useWindowSize();
+  const openPopup = usePopupStore(s => s.open);
   const px = isMobile ? '1.5rem' : isTablet ? '2.5rem' : 'clamp(2rem, 8vw, 9rem)';
 
-  // Grid: 5-col desktop, 2-col tablet, 1-col mobile
-  const gridCols = isMobile ? '1fr' : width < 900 ? '1fr 1fr' : '2fr 1fr 1fr 1fr 1.2fr';
+  const navLinks = [
+    { label: 'Our Story',           id: 'story'          },
+    { label: 'Why Terravana',       id: 'why-terravana'  },
+    { label: 'Masterplan',          id: 'masterplan'     },
+    { label: 'Villas',              id: 'villas'         },
+    { label: 'Location',            id: 'villas'         },
+    { label: 'Contact',             id: 'contact'        },
+    { label: 'Privacy Policy',      id: '/privacy-policy'      },
+    { label: 'Terms & Conditions',  id: '/terms-and-conditions'},
+  ];
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    if (id.startsWith('/')) {
+      window.location.href = id;
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
-  const colHeadStyle: React.CSSProperties = {
+  const labelStyle: React.CSSProperties = {
     fontFamily: "'Manrope', sans-serif",
     fontSize: '0.62rem',
     fontWeight: 700,
-    letterSpacing: '0.2em',
+    letterSpacing: '0.22em',
     textTransform: 'uppercase',
-    color: 'rgba(255,255,255,0.3)',
-    marginBottom: '1.25rem',
+    color: 'rgba(255,255,255,0.35)',
+    marginBottom: '1.5rem',
   };
 
+  // Layout: 3-col on desktop, stack on mobile
+  const topGrid = isMobile ? '1fr' : width < 900 ? '1fr 1fr' : '1.8fr 1fr 1.4fr';
+
   return (
-    <footer style={{ background: '#120E0A', color: 'rgba(255,255,255,0.65)', padding: `clamp(3.5rem, 6vw, 6rem) 0 0`, position: 'relative', overflow: 'hidden' }}>
-      {/* Top accent */}
-      <div style={{ position: 'absolute', top: 0, left: px, right: px, height: '1px', background: 'linear-gradient(to right, transparent, rgba(199,107,51,0.45), transparent)' }} />
+    <footer style={{ background: '#120E0A', color: 'rgba(255,255,255,0.6)', position: 'relative', overflow: 'hidden' }}>
 
-      <div style={{ maxWidth: '100rem', margin: '0 auto', padding: `0 ${px}`, display: 'grid', gridTemplateColumns: gridCols, gap: isMobile ? '2.5rem' : isTablet ? '3rem' : '4rem' }}>
+      {/* ═══ TOP SECTION ═══ */}
+      <div style={{ maxWidth: '100rem', margin: '0 auto', padding: `clamp(4rem, 7vw, 6rem) ${px} 0` }}>
+        <div style={{ display: 'grid', gridTemplateColumns: topGrid, gap: isMobile ? '3rem' : '4rem', alignItems: 'start' }}>
 
-        {/* Brand */}
-        <div>
-          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left', marginBottom: '1.25rem', display: 'block' }}>
-            <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.6rem', fontWeight: 600, letterSpacing: '0.06em', color: '#fff' }}>
-              SVAMITVA
-            </div>
-            <div style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.58rem', fontWeight: 500, letterSpacing: '0.3em', color: '#C76B33', marginTop: '-2px' }}>
-              TERRAVANA
-            </div>
-          </button>
+          {/* Column 1 — Brand + Address */}
+          <div>
+            {/* Logo */}
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left', display: 'block', marginBottom: '1.75rem' }}>
+              <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.7rem', fontWeight: 600, letterSpacing: '0.06em', color: '#fff' }}>
+                SVAMITVA
+              </div>
+              <div style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.58rem', fontWeight: 500, letterSpacing: '0.3em', color: '#C76B33', marginTop: '-2px' }}>
+                TERRAVANA
+              </div>
+            </button>
 
-          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.83rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.35)', maxWidth: isMobile ? '100%' : '30ch', marginBottom: '1.75rem', margin: '0 0 1.75rem' }}>
-            Homes for your mind, body, and soul. An Earth Villa community nestled in 21 acres
-            of living forest on Kanakapura Road, Bangalore.
-          </p>
+            {/* Address */}
+            <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.82rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.75, margin: '0 0 1.5rem' }}>
+              Svamitva Terravana,<br />
+              Vaderahalli, Kanakapura Road,<br />
+              Bangalore — 560 082<br />
+              Karnataka, India
+            </p>
 
-          <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap' }}>
-            {social.map(s => (
-              <a key={s.name} href={s.href} aria-label={s.name} target="_blank" rel="noopener noreferrer"
-                style={{ width: '36px', height: '36px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.45)', transition: 'all 0.25s ease', cursor: 'pointer' }}
-                onMouseEnter={e => { Object.assign((e.currentTarget as HTMLElement).style, { borderColor: '#C76B33', color: '#C76B33', background: 'rgba(199,107,51,0.08)' }); }}
-                onMouseLeave={e => { Object.assign((e.currentTarget as HTMLElement).style, { borderColor: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.45)', background: 'transparent' }); }}>
-                {s.icon}
-              </a>
-            ))}
+            {/* Tagline */}
+            <p style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.1rem', fontStyle: 'italic', color: '#C76B33', lineHeight: 1.5, margin: 0 }}>
+              Rooted in nature. Blooming in luxury.
+            </p>
           </div>
-        </div>
 
-        {/* Quick Links */}
-        <div>
-          <div style={colHeadStyle}>Navigate</div>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-            {quickLinks.map(link => (
-              <li key={link.id}>
-                <button onClick={() => scrollTo(link.id)}
-                  style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.83rem', color: 'rgba(255,255,255,0.48)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, transition: 'color 0.25s ease' }}
-                  onMouseEnter={e => { (e.target as HTMLElement).style.color = '#C76B33'; }}
-                  onMouseLeave={e => { (e.target as HTMLElement).style.color = 'rgba(255,255,255,0.48)'; }}>
-                  {link.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Other Projects */}
-        <div>
-          <div style={colHeadStyle}>Other Projects</div>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-            {otherProjects.map(p => (
-              <li key={p} style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.38)', lineHeight: 1.5 }}>
-                {p}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Contact */}
-        <div>
-          <div style={colHeadStyle}>Contact</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div>
-              <div style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.6rem', color: '#C76B33', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.28rem' }}>
-                Address
-              </div>
-              <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, margin: 0 }}>
-                Vaderahalli, Kanakapura Road<br />Bangalore — 560 082
-              </p>
-            </div>
-            <div>
-              <div style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.6rem', color: '#C76B33', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.28rem' }}>
-                Enquiries
-              </div>
-              <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, margin: 0 }}>
-                info@svamitvagroup.com<br />+91 89715 04584
-              </p>
-            </div>
+          {/* Column 2 — Navigate */}
+          <div>
+            <div style={labelStyle}>Navigate</div>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              {navLinks.map(link => (
+                <li key={link.label}>
+                  <button
+                    onClick={() => scrollTo(link.id)}
+                    style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, transition: 'color 0.2s ease', textAlign: 'left' }}
+                    onMouseEnter={e => { (e.target as HTMLElement).style.color = '#C76B33'; }}
+                    onMouseLeave={e => { (e.target as HTMLElement).style.color = 'rgba(255,255,255,0.5)'; }}
+                  >
+                    {link.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
 
-        {/* Authorised Sales Partner */}
-        <div>
-          <div style={colHeadStyle}>Authorised Sales Partner</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div>
-              <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.15rem', fontWeight: 500, color: '#fff', letterSpacing: '-0.01em', marginBottom: '0.4rem' }}>
-                Wolf Media
-              </div>
-              <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, margin: '0 0 0.5rem' }}>
-                RERA Registered Channel Partner<br />
-                Exclusive marketing & sales partner for Svamitva Terravana.
-              </p>
-            </div>
-            <div>
-              <div style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.6rem', color: '#C76B33', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.28rem' }}>
-                Contact
-              </div>
-              <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.38)', lineHeight: 1.75, margin: 0 }}>
-                +91 89715 04584<br />
-                wolfmedia.website@gmail.com
-              </p>
-            </div>
-            <a
-              href="tel:+918971504584"
+          {/* Column 3 — CTA + Contact */}
+          <div>
+            {/* Heading */}
+            <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: isMobile ? '1.6rem' : '2rem', fontWeight: 400, color: '#fff', letterSpacing: '-0.01em', margin: '0 0 0.25rem', lineHeight: 1.15 }}>
+              Begin your journey to<br />
+              <em style={{ fontStyle: 'italic', color: '#C76B33' }}>extraordinary living.</em>
+            </h3>
+
+            {/* Contact label */}
+            <div style={{ ...labelStyle, marginTop: '2rem' }}>Contact</div>
+            <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.85rem', color: 'rgba(255,255,255,0.45)', lineHeight: 1.8, margin: '0 0 0.75rem' }}>
+              +91 89715 04584
+            </p>
+            <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.85rem', color: 'rgba(255,255,255,0.45)', lineHeight: 1.8, margin: '0 0 2rem' }}>
+              wolfmedia.website@gmail.com
+            </p>
+
+            {/* CTA Button */}
+            <button
+              onClick={openPopup}
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.6rem 1.2rem',
+                display: 'block',
+                padding: '1rem 2.2rem',
                 background: 'transparent',
-                border: '1px solid rgba(199,107,51,0.4)',
-                borderRadius: '100px',
+                border: '1.5px solid rgba(255,255,255,0.25)',
+                borderRadius: '4px',
                 fontFamily: "'Manrope', sans-serif",
-                fontSize: '0.65rem',
+                fontSize: '0.68rem',
                 fontWeight: 700,
-                letterSpacing: '0.16em',
+                letterSpacing: '0.22em',
                 textTransform: 'uppercase',
-                color: '#C76B33',
-                textDecoration: 'none',
-                transition: 'background 0.25s ease, border-color 0.25s ease',
-                width: 'fit-content',
-                marginTop: '0.25rem',
+                color: '#fff',
+                cursor: 'pointer',
+                transition: 'border-color 0.3s ease, background 0.3s ease',
+                textAlign: 'center',
               }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(199,107,51,0.12)';
-                (e.currentTarget as HTMLElement).style.borderColor = '#C76B33';
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.background = 'transparent';
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(199,107,51,0.4)';
-              }}
+              onMouseEnter={e => { (e.currentTarget).style.borderColor = '#C76B33'; (e.currentTarget).style.background = 'rgba(199,107,51,0.08)'; }}
+              onMouseLeave={e => { (e.currentTarget).style.borderColor = 'rgba(255,255,255,0.25)'; (e.currentTarget).style.background = 'transparent'; }}
             >
-              Call Now
+              Schedule a Private<br />Viewing
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ═══ COMPLIANCE & RERA ═══ */}
+      <div style={{ maxWidth: '100rem', margin: '0 auto', padding: `2.5rem ${px} 0` }}>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '2rem' }}>
+          <div style={{ ...labelStyle, marginBottom: '0.8rem' }}>Compliance & RERA</div>
+          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', lineHeight: 1.75, margin: '0 0 0.5rem', maxWidth: '72ch' }}>
+            Karnataka RERA Registration No: <span style={{ color: '#C76B33' }}>PRM/KA/RERA (Pending)</span> — available at
+            the official RERA website <a href="https://rera.karnataka.gov.in" target="_blank" rel="noopener noreferrer" style={{ color: '#C76B33', textDecoration: 'underline', textUnderlineOffset: '2px' }}>rera.karnataka.gov.in</a>.
+          </p>
+        </div>
+      </div>
+
+      {/* ═══ COPYRIGHT + LEGAL LINKS ═══ */}
+      <div style={{ maxWidth: '100rem', margin: '0 auto', padding: `1.5rem ${px}` }}>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.72rem', color: 'rgba(255,255,255,0.22)', letterSpacing: '0.06em' }}>
+            © 2025 Svamitva Group. All rights reserved.
+          </span>
+          <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
+            <a href="/privacy-policy" style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.72rem', color: 'rgba(255,255,255,0.28)', textDecoration: 'none', transition: 'color 0.2s ease' }} onMouseEnter={e => { (e.target as HTMLElement).style.color = '#C76B33'; }} onMouseLeave={e => { (e.target as HTMLElement).style.color = 'rgba(255,255,255,0.28)'; }}>
+              Privacy Policy
+            </a>
+            <span style={{ color: 'rgba(255,255,255,0.12)' }}>|</span>
+            <a href="/terms-and-conditions" style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.72rem', color: 'rgba(255,255,255,0.28)', textDecoration: 'none', transition: 'color 0.2s ease' }} onMouseEnter={e => { (e.target as HTMLElement).style.color = '#C76B33'; }} onMouseLeave={e => { (e.target as HTMLElement).style.color = 'rgba(255,255,255,0.28)'; }}>
+              Terms & Conditions
             </a>
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div style={{ maxWidth: '100rem', margin: '3.5rem auto 0', padding: `1.25rem ${px}`, borderTop: '1px solid rgba(255,255,255,0.055)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
-        <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.7rem', color: 'rgba(255,255,255,0.22)', letterSpacing: '0.07em' }}>
-          © 2025 Svamitva Group. All rights reserved.
-        </span>
-        <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.7rem', color: 'rgba(255,255,255,0.18)', letterSpacing: '0.07em', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-          <span>RERA Registration Pending</span>
-          <span>·</span>
-          <a href="/privacy-policy" style={{ color: 'rgba(255,255,255,0.3)', textDecoration: 'none', transition: 'color 0.2s ease' }} onMouseEnter={e => { (e.target as HTMLElement).style.color = '#C76B33'; }} onMouseLeave={e => { (e.target as HTMLElement).style.color = 'rgba(255,255,255,0.3)'; }}>Privacy Policy</a>
-          <span>·</span>
-          <a href="/terms-and-conditions" style={{ color: 'rgba(255,255,255,0.3)', textDecoration: 'none', transition: 'color 0.2s ease' }} onMouseEnter={e => { (e.target as HTMLElement).style.color = '#C76B33'; }} onMouseLeave={e => { (e.target as HTMLElement).style.color = 'rgba(255,255,255,0.3)'; }}>Terms & Conditions</a>
-        </span>
+      {/* ═══ AUTHORISED SALES PARTNER ═══ */}
+      <div style={{ maxWidth: '100rem', margin: '0 auto', padding: `0 ${px} clamp(2.5rem, 4vw, 3.5rem)` }}>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.75rem' }}>
+          <div style={{ ...labelStyle, color: '#C76B33', marginBottom: '0.75rem' }}>Authorised Sales Partner</div>
+          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.82rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.75, margin: '0 0 0.35rem' }}>
+            Marketing managed by <strong style={{ color: 'rgba(255,255,255,0.6)' }}>Wolf Media</strong>
+          </p>
+          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.78rem', color: 'rgba(255,255,255,0.3)', lineHeight: 1.75, margin: 0 }}>
+            This website is operated by an authorised marketing partner for Svamitva Terravana.
+          </p>
+        </div>
       </div>
     </footer>
   );
