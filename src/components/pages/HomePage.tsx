@@ -8,6 +8,8 @@ import EnquirySection from '@/components/terravana/EnquirySection';
 import Footer from '@/components/terravana/Footer';
 import LuxuryCursor from '@/components/terravana/LuxuryCursor';
 import FloatingCTA from '@/components/terravana/FloatingCTA';
+import WhatsAppButton from '@/components/terravana/WhatsAppButton';
+import EnquiryPopup from '@/components/terravana/EnquiryPopup';
 
 export default function HomePage() {
   return (
@@ -17,6 +19,12 @@ export default function HomePage() {
 
       {/* Floating enquire CTA */}
       <FloatingCTA />
+
+      {/* Sticky WhatsApp button */}
+      <WhatsAppButton />
+
+      {/* Popup enquiry form — auto-shows after 25s */}
+      <EnquiryPopup />
 
       {/* ── Section 1: Navbar ── */}
       <NavBar />
