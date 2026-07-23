@@ -140,8 +140,9 @@ export default function Footer() {
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '2rem' }}>
           <div style={{ ...labelStyle, marginBottom: '0.8rem' }}>Compliance & RERA</div>
           <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', lineHeight: 1.75, margin: '0 0 0.5rem', maxWidth: '72ch' }}>
-            Karnataka RERA Registration No: <span style={{ color: '#C76B33' }}>PRM/KA/RERA (Pending)</span> — available at
-            the official RERA website <a href="https://rera.karnataka.gov.in" target="_blank" rel="noopener noreferrer" style={{ color: '#C76B33', textDecoration: 'underline', textUnderlineOffset: '2px' }}>rera.karnataka.gov.in</a>.
+            Phase 1 RERA No: <span style={{ color: '#C76B33' }}>PRM/KA/RERA/1270/305/PR/201106/003693</span><br />
+            Phase 2 RERA No: <span style={{ color: '#C76B33' }}>PRM/KA/RERA/1270/305/PR/160622/004995</span><br />
+            Available at the official RERA website <a href="https://rera.karnataka.gov.in" target="_blank" rel="noopener noreferrer" style={{ color: '#C76B33', textDecoration: 'underline', textUnderlineOffset: '2px' }}>rera.karnataka.gov.in</a>.
           </p>
         </div>
       </div>
