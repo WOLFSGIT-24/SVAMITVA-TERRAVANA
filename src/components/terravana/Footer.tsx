@@ -220,8 +220,12 @@ export default function Footer() {
         <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.7rem', color: 'rgba(255,255,255,0.22)', letterSpacing: '0.07em' }}>
           © 2025 Svamitva Group. All rights reserved.
         </span>
-        <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.7rem', color: 'rgba(255,255,255,0.18)', letterSpacing: '0.07em' }}>
-          RERA Registration Pending · Privacy Policy
+        <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.7rem', color: 'rgba(255,255,255,0.18)', letterSpacing: '0.07em', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+          <span>RERA Registration Pending</span>
+          <span>·</span>
+          <a href="/privacy-policy" style={{ color: 'rgba(255,255,255,0.3)', textDecoration: 'none', transition: 'color 0.2s ease' }} onMouseEnter={e => { (e.target as HTMLElement).style.color = '#C76B33'; }} onMouseLeave={e => { (e.target as HTMLElement).style.color = 'rgba(255,255,255,0.3)'; }}>Privacy Policy</a>
+          <span>·</span>
+          <a href="/terms-and-conditions" style={{ color: 'rgba(255,255,255,0.3)', textDecoration: 'none', transition: 'color 0.2s ease' }} onMouseEnter={e => { (e.target as HTMLElement).style.color = '#C76B33'; }} onMouseLeave={e => { (e.target as HTMLElement).style.color = 'rgba(255,255,255,0.3)'; }}>Terms & Conditions</a>
         </span>
       </div>
     </footer>
