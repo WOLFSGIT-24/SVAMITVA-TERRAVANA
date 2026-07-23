@@ -41,3 +41,7 @@ docs/*
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Vercel build output
+.vercel
+dist
