@@ -57,8 +57,10 @@ export default function HeroSection() {
       id="hero"
       style={{
         position: 'relative',
-        height: '100svh',
-        minHeight: isMobile ? '600px' : '700px',
+        height: '100vh',
+        height: '100dvh', // dynamic viewport height — accounts for mobile browser chrome
+        minHeight: isMobile ? '560px' : '680px',
+        maxHeight: isMobile ? '900px' : undefined,
         overflow: 'hidden',
         background: '#1a1612',
       }}
@@ -120,13 +122,14 @@ export default function HeroSection() {
         <h1
           style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: isMobile ? 'clamp(3rem, 14vw, 4.5rem)' : isTablet ? 'clamp(4rem, 10vw, 6.5rem)' : 'clamp(5rem, 9vw, 9rem)',
+            fontSize: isMobile ? 'clamp(2.5rem, 12vw, 4rem)' : isTablet ? 'clamp(3.5rem, 8vw, 5.5rem)' : 'clamp(5rem, 9vw, 9rem)',
             fontWeight: 300,
             color: '#fff',
             lineHeight: 0.95,
             letterSpacing: '-0.03em',
             margin: 0,
-            maxWidth: isMobile ? '100%' : '14ch',
+            maxWidth: '100%',
+            wordBreak: 'break-word',
           }}
         >
           <RevealWords text="Homes for" delay={0.5} />
