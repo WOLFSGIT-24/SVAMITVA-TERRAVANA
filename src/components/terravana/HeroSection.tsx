@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useWindowSize } from '@/hooks/use-window-size';
+import { usePopupStore } from '@/hooks/use-popup-store';
 
 function RevealWords({ text, delay = 0, style }: {
   text: string;
@@ -46,7 +47,7 @@ export default function HeroSection() {
     return () => window.removeEventListener('mousemove', onMove);
   }, [isMobile]);
 
-  const scrollToContact = () => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToContact = () => usePopupStore.getState().open();
   const scrollToStory   = () => document.getElementById('story')?.scrollIntoView({ behavior: 'smooth' });
 
   const px = isMobile ? '1.5rem' : isTablet ? '2.5rem' : 'clamp(2rem, 8vw, 9rem)';

@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWindowSize } from '@/hooks/use-window-size';
+import { usePopupStore } from '@/hooks/use-popup-store';
 
 export default function FloatingCTA() {
   const [visible, setVisible] = useState(false);
   const { isMobile } = useWindowSize();
+  const openPopup = usePopupStore(s => s.open);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.55);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  const scrollToContact = () => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <AnimatePresence>
@@ -32,7 +32,7 @@ export default function FloatingCTA() {
           <motion.button
             whileHover={{ scale: 1.07 }}
             whileTap={{ scale: 0.95 }}
-            onClick={scrollToContact}
+            onClick={openPopup}
             style={{
               padding: isMobile ? '0.75rem 1.4rem' : '0.85rem 1.8rem',
               background: '#C76B33',

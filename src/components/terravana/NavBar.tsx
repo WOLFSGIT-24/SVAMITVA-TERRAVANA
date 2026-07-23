@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWindowSize } from '@/hooks/use-window-size';
+import { usePopupStore } from '@/hooks/use-popup-store';
 
 export default function NavBar() {
   const [scrolled, setScrolled] = useState(false);
@@ -107,7 +108,7 @@ export default function NavBar() {
           {/* CTA */}
           <div className="hidden lg:block">
             <button
-              onClick={() => scrollTo('Contact')}
+              onClick={() => usePopupStore.getState().open()}
               className="tv-btn-primary"
               style={{ cursor: 'none', fontSize: '0.68rem', padding: '0.7rem 1.6rem' }}
             >

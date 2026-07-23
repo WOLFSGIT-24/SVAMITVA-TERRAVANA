@@ -1,24 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWindowSize } from '@/hooks/use-window-size';
 import { useEnquiryForm } from '@/hooks/use-enquiry-form';
+import { usePopupStore } from '@/hooks/use-popup-store';
 
 const AUTO_DELAY_MS = 25000;
 const DISMISS_KEY   = 'tv_popup_dismissed';
 
 export default function EnquiryPopup() {
-  const [open, setOpen] = useState(false);
+  const { isOpen: open, close: closeStore } = usePopupStore();
   const { isMobile, isTablet } = useWindowSize();
   const { form, loading, submitted, error, handleChange, handleSubmit, reset } = useEnquiryForm();
 
+  // Auto-show after 25s (only once per session)
   useEffect(() => {
     if (sessionStorage.getItem(DISMISS_KEY)) return;
-    const timer = setTimeout(() => setOpen(true), AUTO_DELAY_MS);
+    const timer = setTimeout(() => usePopupStore.getState().open(), AUTO_DELAY_MS);
     return () => clearTimeout(timer);
   }, []);
 
   const close = () => {
-    setOpen(false);
+    closeStore();
     sessionStorage.setItem(DISMISS_KEY, '1');
   };
 
